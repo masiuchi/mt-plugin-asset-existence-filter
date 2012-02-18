@@ -15,6 +15,7 @@ my $plugin = __PACKAGE__->new({
     version     => '1.00',
     author_name => 'masiuchi',
     author_link => 'https://github.com/masiuchi',
+    plugin_link => 'https://github.com/masiuchi/mt-plugin-asset-existence-filter',
     description => '<__trans phrase="Enable filtering assets by the file existing or not. Only for MT 5.1 because of using listing framework.">',
     system_config_template => 'system_config.tmpl',
     settings => MT::PluginSettings->new([
