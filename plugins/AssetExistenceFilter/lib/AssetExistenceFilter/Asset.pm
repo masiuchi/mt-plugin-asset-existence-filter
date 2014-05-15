@@ -76,7 +76,7 @@ sub _terms {
         $func = sub { $_[0] && $fmgr->exists( $_[0] ); }
     }
     else {
-        $func = sub { !( $_[0] && $fmgr->exists( $_[0] ) ); }
+        $func = sub { $_[0] && !$fmgr->exists( $_[0] ); }
     }
 
     my $read_at_once = _get_read_at_once();
@@ -96,12 +96,7 @@ sub _terms {
         $temp_args{offset} += $read_at_once;
     }
 
-    if ( scalar @ids ) {
-        return { id => \@ids };
-    }
-    else {
-        return {};
-    }
+    return { id => @ids ? \@ids : \'IS NULL' };
 }
 
 sub _get_read_at_once {
