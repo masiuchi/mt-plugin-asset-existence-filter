@@ -10,12 +10,14 @@ use MT;
 
 my $mt = MT->new;
 
-ok( MT->component( 'AssetExistenceFilter' ), 'AssetExistenceFilter plugin loaded correctly' );
+ok( MT->component('AssetExistenceFilter'),
+    'AssetExistenceFilter plugin loaded correctly'
+);
 
-use_ok( 'AssetExistenceFilter::Asset' );
-use_ok( 'AssetExistenceFilter::Util' );
-use_ok( 'AssetExistenceFilter::L10N' );
-use_ok( 'AssetExistenceFilter::L10N::ja' );
+use_ok('AssetExistenceFilter::Asset');
+use_ok('AssetExistenceFilter::Util');
+use_ok('AssetExistenceFilter::L10N');
+use_ok('AssetExistenceFilter::L10N::ja');
 
 done_testing;
 

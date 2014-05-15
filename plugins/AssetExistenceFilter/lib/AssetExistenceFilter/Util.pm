@@ -7,7 +7,8 @@ our @EXPORT_OK = qw( is_positive_int );
 sub is_positive_int {
     if ( $_[0] =~ /\D/ || $_[0] < 1 ) {
         return 0;
-    } else {
+    }
+    else {
         return 1;
     }
 }

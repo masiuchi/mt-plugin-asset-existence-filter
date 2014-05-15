@@ -3,7 +3,7 @@ use strict;
 
 use AssetExistenceFilter::Util qw( is_positive_int );
 
-our $PLUGIN = MT->instance()->component( 'AssetExistenceFilter' );
+our $PLUGIN = MT->instance()->component('AssetExistenceFilter');
 
 sub list_props {
     return {
@@ -22,29 +22,27 @@ sub system_filters {
     return {
         existing => {
             label => 'File Existing',
-            items => [ {
-                type => 'file_existence',
-                args => {
-                    value => 'existing',
+            items => [
+                {   type => 'file_existence',
+                    args => { value => 'existing', },
                 },
-            }, ],
+            ],
             order => 10100,
         },
         not_existing => {
             label => 'File Not Existing',
-            items => [ {
-                type => 'file_existence',
-                args => {
-                    value => 'not existing',
+            items => [
+                {   type => 'file_existence',
+                    args => { value => 'not existing', },
                 },
-            }, ],
+            ],
             order => 10200,
         },
     };
 }
 
 sub _filter_tmpl {
-    my $file = MT->translate( 'File' );
+    my $file = MT->translate('File');
     return <<"HTMLHEREDOC";
 <mt:setvar name="label" value="$file">
 <mt:var name="filter_form_single_select">
@@ -53,12 +51,10 @@ HTMLHEREDOC
 
 sub _single_select_options {
     return [
-        {
-            label => $PLUGIN->translate( 'existing' ),
+        {   label => $PLUGIN->translate('existing'),
             value => 'existing',
         },
-        {
-            label => $PLUGIN->translate( 'not existing' ),
+        {   label => $PLUGIN->translate('not existing'),
             value => 'not existing',
         },
     ];
@@ -68,16 +64,18 @@ sub _terms {
     my $prop = shift;
     my ( $args, $db_terms, $db_args ) = @_;
 
-    return unless $args->{value} eq 'existing'
+    return
+        unless $args->{value} eq 'existing'
         || $args->{value} eq 'not existing';
 
     require MT::FileMgr;
-    my $fmgr = MT::FileMgr->new( 'Local' );
+    my $fmgr = MT::FileMgr->new('Local');
 
     my $func;
     if ( $args->{value} eq 'existing' ) {
         $func = sub { $_[0] && $fmgr->exists( $_[0] ); }
-    } else {
+    }
+    else {
         $func = sub { !( $_[0] && $fmgr->exists( $_[0] ) ); }
     }
 
@@ -92,7 +90,7 @@ sub _terms {
     while ( my @assets = MT::Asset->load( $db_terms, \%temp_args ) ) {
         @assets = grep {
             my $file_path = $_->file_path;
-            $func->( $file_path );
+            $func->($file_path);
         } @assets;
         push @ids, map { $_->id } @assets;
         $temp_args{offset} += $read_at_once;
@@ -100,7 +98,8 @@ sub _terms {
 
     if ( scalar @ids ) {
         return { id => \@ids };
-    } else {
+    }
+    else {
         return {};
     }
 }
@@ -108,9 +107,10 @@ sub _terms {
 sub _get_read_at_once {
     my $read_at_once = $PLUGIN->get_config_value( 'read_at_once', 'system' );
 
-    if ( is_positive_int( $read_at_once ) ) {
+    if ( is_positive_int($read_at_once) ) {
         return $read_at_once;
-    } else {
+    }
+    else {
         return $PLUGIN->DEFAULT_READ_AT_ONCE;
     }
 }
