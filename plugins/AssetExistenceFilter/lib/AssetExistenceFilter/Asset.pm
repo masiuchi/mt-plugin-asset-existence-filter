@@ -7,9 +7,9 @@ our $PLUGIN = MT->instance()->component('AssetExistenceFilter');
 
 sub list_props {
     return {
-        file_existence => {
+        missing => {
             base                  => '__virtual.single_select',
-            label                 => 'File Existence',
+            label                 => 'Missing Files',
             singleton             => 1,
             filter_tmpl           => \&_filter_tmpl,
             single_select_options => \&_single_select_options,
@@ -20,20 +20,20 @@ sub list_props {
 
 sub system_filters {
     return {
-        existing => {
-            label => 'File Existing',
+        extant => {
+            label => 'Assets with Extant Files',
             items => [
-                {   type => 'file_existence',
-                    args => { value => 'existing', },
+                {   type => 'missing',
+                    args => { value => 'extant', },
                 },
             ],
             order => 10100,
         },
-        not_existing => {
-            label => 'File Not Existing',
+        missing => {
+            label => 'Assets with Missing Files',
             items => [
-                {   type => 'file_existence',
-                    args => { value => 'not existing', },
+                {   type => 'missing',
+                    args => { value => 'missing', },
                 },
             ],
             order => 10200,
@@ -51,11 +51,11 @@ HTMLHEREDOC
 
 sub _single_select_options {
     return [
-        {   label => $PLUGIN->translate('existing'),
-            value => 'existing',
+        {   label => $PLUGIN->translate('extant'),
+            value => 'extant',
         },
-        {   label => $PLUGIN->translate('not existing'),
-            value => 'not existing',
+        {   label => $PLUGIN->translate('missing'),
+            value => 'missing',
         },
     ];
 }
@@ -65,14 +65,14 @@ sub _terms {
     my ( $args, $db_terms, $db_args ) = @_;
 
     return
-        unless $args->{value} eq 'existing'
-        || $args->{value} eq 'not existing';
+        unless $args->{value} eq 'extant'
+        || $args->{value} eq 'missing';
 
     require MT::FileMgr;
     my $fmgr = MT::FileMgr->new('Local');
 
     my $func;
-    if ( $args->{value} eq 'existing' ) {
+    if ( $args->{value} eq 'extant' ) {
         $func = sub { $_[0] && $fmgr->exists( $_[0] ); }
     }
     else {
