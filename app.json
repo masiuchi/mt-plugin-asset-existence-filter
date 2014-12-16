@@ -1,5 +1,5 @@
 {
-  "name": "MT::Plugin::AssetExistenceFilter",
+  "name": "MT::P::AssetExistenceFilter",
   "env": {
     "BUILDPACK_URL": "https://github.com/masiuchi/heroku-buildpack-multi.git#mt",
     "MT_ZIP_URL": "https://movabletype.org/downloads/stable/MTOS-5.2.11.zip"
