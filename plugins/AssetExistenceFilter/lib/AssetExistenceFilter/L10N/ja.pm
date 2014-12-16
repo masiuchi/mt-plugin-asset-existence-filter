@@ -14,11 +14,12 @@ our %Lexicon = (
     'Read at once' => '一度に読み込むデータ数',
 
     # lib/AssetExistenceFilter/Asset.pm
-    'Missing Files'    => 'ファイルの存在有無',
-    'extant'          => '存在する',
-    'missing'      => '存在しない',
+    'Missing Files'            => 'ファイルの存在有無',
+    'extant'                   => '存在する',
+    'missing'                  => '存在しない',
     'Assets with Extant Files' => 'ファイルが存在するアイテム',
-    'Assets with Missing Files' => 'ファイルが存在しないアイテム',
+    'Assets with Missing Files' =>
+        'ファイルが存在しないアイテム',
 );
 
 1;
